@@ -16,45 +16,33 @@ This all depends on a `gh-pages` branch:
 
     git branch gh-pages origin/gh-pages
 
+First build the distribution:
+
+    make distcheck
+
 On any system you can build the tarball, Homebrew package, Arch
 PKGBUILD, and tag:
 
-    make release_build_tarball release_build_homebrew release_build_arch \
-	    release_build_tag
+    ./maint/release build tarball rcm-*.tar.gz
+    ./maint/release build homebrew rcm-*.tar.gz
+    ./maint/release build arch rcm-*.tar.gz
+    ./maint/release build tag rcm-*.tar.gz
 
 You need mdocml to tranform the manpages into HTML:
 
-    make release_build_man_html
+    ./maint/release build man_html rcm-*.tar.gz
 
 Only on Debian systems can you build the Debian package:
 
-    make release_build_deb
+    make NEWS.md
+    ./maint/release build deb rcm-*.tar.gz
 
-If you are on a Debian system with mdocml, here is a shortcut:
+Once built, you can push it live:
 
-    make release_build
+    ./maint/release push tarball rcm-*.tar.gz
+    # ... etc. ...
 
-From here you can push these:
+And once pushed, you should clean up
 
-    make release_push_tarball release_push_homebrew release_push_arch \
-	    release_push_tag release_push_man_html
-    make release_push_deb
-
-Or, all at once:
-
-    make release_push
-
-You can clean individual steps:
-
-    make release_clean_tarball release_clean_homebrew release_clean_arch \
-      release_clean_deb release_clean_tag release_clean_man_html
-
-Or, again, everything at once:
-
-    make release_clean
-
-If you are on a Debian system, have mdocml installed, have an absurd
-amount of trust in the system, and know how to debug it intimately, give
-everything a go:
-
-    make release
+    ./maint/release clean tarball rcm-*.tar.gz
+    # ... etc. ...
